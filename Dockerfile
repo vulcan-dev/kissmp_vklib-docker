@@ -33,12 +33,10 @@ RUN cargo build -p kissmp-server -j 8 --release
 
 ## Final image
 FROM --platform=arm64 ubuntu:20.04
-RUN apt-get update
-RUN apt-get install -y liblua5.4
-COPY --from=1 /builds/kissmp/KISS-multiplayer/target/release/kissmp-server /server/kissmp-server
 COPY --from=0 /usr/lib/liblua.so.5.4.4 /usr/lib/liblua.so.5.4.4
 COPY --from=0 /usr/lib/liblua.so.5.4 /usr/lib/liblua.so.5.4
 COPY --from=0 /usr/lib/liblua.so /usr/lib/liblua.so
+COPY --from=1 /builds/kissmp/KISS-multiplayer/target/release/kissmp-server /server/kissmp-server
 WORKDIR /server
 RUN mkdir mods
 RUN mkdir addons
